@@ -3,13 +3,11 @@ package main
 import (
 	"fmt"
 	"math"
-	"math/rand"
 	"os"
-	"time"
 )
 
 func main() {
-	var a, b, res float32
+	var a, b, res float64
 	var op string
 
 	fmt.Print("Введите первое число: ")
@@ -31,14 +29,12 @@ func main() {
 	case "/":
 		res = a / b
 	case "pow":
-		math.pow(a, b)
+		res = math.Pow(a, b)
 	default:
 		fmt.Println("Операция выбрана неверно")
 		os.Exit(1)
 	}
 
 	fmt.Printf("Результат выполнения операции: %f\n", res)
-
-	}
 
 }

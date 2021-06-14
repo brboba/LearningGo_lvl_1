@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"math/rand"
 	"os"
+	"time"
 )
 
 func main() {
@@ -15,7 +18,7 @@ func main() {
 	fmt.Print("Введите второе число: ")
 	fmt.Scanln(&b)
 
-	fmt.Print("Введите арифметическую операцию (+, -, *, /): ")
+	fmt.Print("Введите арифметическую операцию (+, -, *, /, pow): ")
 	fmt.Scanln(&op)
 
 	switch op {
@@ -27,10 +30,15 @@ func main() {
 		res = a * b
 	case "/":
 		res = a / b
+	case "pow":
+		math.pow(a, b)
 	default:
 		fmt.Println("Операция выбрана неверно")
 		os.Exit(1)
 	}
 
 	fmt.Printf("Результат выполнения операции: %f\n", res)
+
+	}
+
 }

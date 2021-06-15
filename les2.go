@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
+	"time"
 )
 
 func main() {
@@ -34,10 +36,11 @@ func main() {
 	//Выведите цифры, соответствующие количество сотен, десятков и единиц в этом числе.
 	fmt.Println("task 3")
 
-	fmt.Println("Введите трехзначное число: ")
-	fmt.Scanln(&a)
+	rand.Seed(time.Now().Unix()) // случайные числа действительно случайные
+	var a = rand.Intn(1000)      //присваиваем случайные числа
+	fmt.Println("возьмем случайное число: ", a)
 
-	fmt.Println("сотни : ", (a-a%100)%1000/100)
-	fmt.Println("десятки : ", (a-a%10)%100/10)
+	fmt.Println("сотни : ", (a/100)%10)
+	fmt.Println("десятки : ", (a/10)%10)
 	fmt.Println("еденицы : ", a%10)
 }

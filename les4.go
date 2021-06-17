@@ -3,17 +3,35 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 func main() {
+	var str string
+	fmt.Println("Введите последовательность целых чисел в формате: \"1,3,5,6,8,42\", если пропустить" +
+		"ввод то будет использована последовательность из примера ")
+	fmt.Scanln(&str)
 
-	if len(mystring) > 0 {
+	if len(str) == 0 { // первый вариант проверки, что строка не пустая
+		str = "7,2,47,242,475,12,42" // если строка пустая, то пишем свою последовательность из примера
 	}
 
-	if mystring != "" {
+	//if ttt == "" {            // второй вариант проверки, что строка не пустая
+	//ttt = {7,2,47,242,475,12,42}
+	//}
+
+	strs := strings.Split(str, ",")
+	var ints []int
+	for _, s := range strs {
+		num, err := strconv.Atoi(s)
+		if err == nil {
+			ints = append(ints, num)
+		}
 	}
 
-	ints := []int{7, 2, 4}
+	fmt.Println(ints)
+
 	sort.Ints(ints)
 	fmt.Println("Ints:   ", ints)
 }

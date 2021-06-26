@@ -11,9 +11,9 @@ func fibonacci(i int) (ret int) {
 	}
 	return fibonacci(i-1) + fibonacci(i-2)
 }
-func fibonacci1(i int) (ret int) {
-	m := make(map[int]int)
+m := make(map[int]int)
 
+func fibonacci1(i int) (ret int) {
 	if m[i] == 0 {
 		return 0
 		println(m[i])
@@ -28,6 +28,7 @@ func fibonacci1(i int) (ret int) {
 
 func main() {
 	var N int
+	m := make(map[int]int)
 
 	println("Вычислим чему равно N число в последовательности фибоначи," +
 		" для этого введите N")

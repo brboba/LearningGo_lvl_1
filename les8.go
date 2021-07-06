@@ -1,24 +1,31 @@
 package main
 
 import (
-	"./les8" // странно но папка с функциями видится только в таком исполнение,
-	        // вариант "learningGo/les8" не проходит
+	"./les8"
+	"flag"
 	"fmt"
+	"log"
+)
+
+var (
+	configTypes = flag.String("параметр при запуске", "значение которое передаем в параметре",
+		"описание параметра команды")
 )
 
 func main() {
-	greet.Hello()
+	flag.Parse()
 
-	fmt.Println(greet.Shark)
-
-	oct := greet.Octopus{
-		Name:  "Jesse",
-		Color: "orange",
+	err, conf := ReadConf.GetConfig(*configTypes)
+	if err != nil {
+		log.Fatalln(err)
 	}
+	fmt.Println(conf)
 
-	fmt.Println(oct.String())
-
-	oct.Reset()
-
-	fmt.Println(oct.String())
 }
+
+/*
+var port = flag.String("port", "8080", "port_number")
+var db_url = flag.String("db_url", "gb.ru", "name")
+var login = flag.String("login", "Login-Admin", "name")
+var pass = flag.String("pass", "Admin-Pass", "name")
+ */

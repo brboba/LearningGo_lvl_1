@@ -1,15 +1,13 @@
 package ReadConf
 
 import (
-	"fmt"
-	"os"
+	"errors"
+	"flag"
 	"strconv"
 )
 
-var Hellow = "Hellow config"
-
 type Config struct {
-	Port        int
+	Port        int64
 	DbUrl       string
 	JaegerUrl   string
 	SentryUrl   string
@@ -18,76 +16,27 @@ type Config struct {
 	SomeAppKey  string
 }
 
-func GetConfig(configTypes string) (*Config, error) {
-	switch configTypes {
-	case "env":
-		return getEnvConfig()
-	default:
-		return nil, fmt.Errorf("Заданный вами тип не поддерживается")
-	}
+func GetConfig() (Config, error) {
+	return getArgumentsConfig()
 }
 
-func getEnvConfig() (*Config, error) {
-	config := &Config{}
+func getArgumentsConfig() (Config, error) {
+	port := flag.String("port", "80", "Description")
 
-	port, err := getEnvVar("PORT")
-	if err != nil {
-		return nil, err
-	}
-	portInt, err := strconv.ParseInt(port, 10, 64)
-	if err != nil {
-		return nil, err
-	}
-	config.Port = int(portInt)
+	flag.Parse()
 
-	dbUrl, err := getEnvVar("DB_URL")
-	if err != nil {
-		return nil, err
-	}
-	config.DbUrl = dbUrl
+	config := Config{}
 
-	jaegerUrl, err := getEnvVar("JAEGER_URL")
-	if err != nil {
-		return nil, err
+	if !isNumeric(*port) {
+		return config, errors.New("Port is not number")
 	}
-	config.JaegerUrl = jaegerUrl
 
-	sentryUrl, err := getEnvVar("SENTRY_URL")
-	if err != nil {
-		return nil, err
-	}
-	config.SentryUrl = sentryUrl
-
-	kafkaBroker, err := getEnvVar("KAFKA_BROKER")
-	if err != nil {
-		return nil, err
-	}
-	config.KafkaBroker = kafkaBroker
-
-	someAppId, err := getEnvVar("SOME_APP_ID")
-	if err != nil {
-		return nil, err
-	}
-	config.SomeAppId = someAppId
-
-	someAppKey, err := getEnvVar("SOME_APP_KEY")
-	if err != nil {
-		return nil, err
-	}
-	config.SomeAppKey = someAppKey
+	config.Port, _ = strconv.ParseInt(*port, 10, 64)
 
 	return config, nil
 }
 
-func getEnvVar(envVar string) (string, error) {
-	value := os.Getenv(envVar)
-	if value == "" {
-		return "", fmt.Errorf("you should define env-var \"%s\"", envVar)
-	}
-	return value, nil
+func isNumeric(s string) bool {
+	_, err := strconv.ParseInt(s, 10, 64)
+	return err == nil
 }
-
-
-
-
-

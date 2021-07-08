@@ -22,16 +22,18 @@ func GetConfig() (Config, error) {
 
 func getArgumentsConfig() (Config, error) {
 	port := flag.String("port", "80", "Description")
+	dburl := flag.String("dburl","ya.ru","adress base")
 
 	flag.Parse()
 
 	config := Config{}
 
-	if !isNumeric(*port) {
+	if !isNumeric(*port) {                                         //if isNumeric==false
 		return config, errors.New("Port is not number")
 	}
 
 	config.Port, _ = strconv.ParseInt(*port, 10, 64)
+	config.DbUrl = *dburl
 
 	return config, nil
 }

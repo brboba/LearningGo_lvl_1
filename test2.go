@@ -1,23 +1,27 @@
 package main
 
 import (
-	"./test2"
 	"fmt"
+	"io"
+	"os"
 )
 
+
 func main() {
-	greet.Hello()
-
-	fmt.Println(greet.Shark)
-
-	oct := greet.Octopus{
-		Name:  "Jesse",
-		Color: "orange",
+	file, err := os.Open("hello.txt")
+	if err != nil{
+		fmt.Println(err)
+		os.Exit(1)
 	}
+	defer file.Close()
 
-	fmt.Println(oct.String())
+	data := make([]byte, 64)
 
-	oct.Reset()
-
-	fmt.Println(oct.String())
+	for{
+		n, err := file.Read(data)
+		if err == io.EOF{   // если конец файла
+			break           // выходим из цикла
+		}
+		fmt.Print(string(data[:n]))
+	}
 }

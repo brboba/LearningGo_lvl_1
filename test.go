@@ -1,16 +1,34 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"log"
+	"os"
+)
 
 func main() {
-	var creature string = "shark"
-	var pointer *string = &creature
 
-	fmt.Println("creature =", creature)
-	fmt.Println("pointer =", pointer)
+	// Пробуем открыть файл
+	file, err := os.Open("les9/conf.yaml")
+	if err != nil {
+		log.Fatalf("Не могу открыть файл: %v", err)
+	}
 
-	fmt.Println("*pointer =", *pointer)
+	defer func() {
+		err := file.Close()
+		if err != nil {
+			log.Printf("Не могу закрыть файл: %v", err)
+		}
+	}()
 
-	*pointer = "jellyfish"
-	fmt.Println("*pointer =", *pointer)
+	ConfRead:= make([]byte, 64)
+
+	for{
+		n, err := file.Read(ConfRead)
+		if err == io.EOF{   // если конец файла
+			break           // выходим из цикла
+		}
+		fmt.Print(string(ConfRead[:n]))
+	}
 }
